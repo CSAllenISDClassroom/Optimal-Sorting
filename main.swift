@@ -4,20 +4,50 @@ import Foundation
 var words = [String]()
 var sortedWords = [String]()
 let completedWords = words.sorted()
-func getList() -> [String]{
-    if let listOfWordsURL = Bundle.main.url(forResource: "List",
-                                            withExtension:"txt"){
-        if let listOfWords = try? String(contentsOf: listOfWordsURL){
-            words = listOfWords.components(separatedBy: "\n")
+
+
+//Use this if we are using a file to get words
+// func getList() -> [String]{
+//     if let listOfWordsURL = Bundle.main.url(forResource: "List",
+//                                             withExtension:"txt"){
+//         if let listOfWords = try? String(contentsOf: listOfWordsURL){
+//             words = listOfWords.components(separatedBy: "\n")
+//         }
+//     }
+
+//     if words.isEmpty {
+//         words = ["hi"]
+//     }
+//     return words
+// }
+
+//use this to get words manually from the user
+func getWords(array: [String]) -> [String]{
+    var list = array
+
+    print("Please enter a word:")
+    print("(To stop typing in words type 'quit')")
+
+    while let input = readLine() {
+        guard input != "quit" else{
+            break
         }
-    }
 
-    if words.isEmpty {
-        words = ["hi"]
+        if !list.contains(input) && input != "" {
+            list.append(input)
+
+            print("You entered: \(input)")
+        }else if input == ""{
+            print("Sorry, you can not leave this blank. Please type something in next time.")
+        }else{
+            print("Sorry, \"\(input)\" already exits")
+        }
+
+        print()
+        print("Please enter a word:")
     }
-    return words
+    return list
 }
-
 func sorted(words:[String]) -> [String]{
 
     var sortedWords = words
@@ -46,8 +76,9 @@ func printResults(words:[String]){
         print(word)
     }
 }
-words = getList()
+//words = getList()
 //words = readLine(strippingNewline: false).components(separatedBy: "\n")
+words = getWords(array: words)
 print("input of words:\(words)")
 sortedWords = sorted(words: words)
 print("output of words:\(sortedWords)")
