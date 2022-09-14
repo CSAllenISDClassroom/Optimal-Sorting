@@ -7,19 +7,19 @@ let completedWords = words.sorted()
 
 
 //Use this if we are using a file to get words
-// func getList() -> [String]{
-//     if let listOfWordsURL = Bundle.main.url(forResource: "List",
-//                                             withExtension:"txt"){
-//         if let listOfWords = try? String(contentsOf: listOfWordsURL){
-//             words = listOfWords.components(separatedBy: "\n")
-//         }
-//     }
+func getList() -> [String]{    
+    if let listOfWordsURL = Bundle.main.url(forResource: "List",
+                                            withExtension:"txt"){
+        if let listOfWords = try? String(contentsOf: listOfWordsURL){
+            words = listOfWords.components(separatedBy: "\n")
+        }
+    }
 
-//     if words.isEmpty {
-//         words = ["hi"]
-//     }
-//     return words
-// }
+    if words.isEmpty {
+        words = ["hi"]
+    }
+    return words
+}
 
 //use this to get words manually from the user
 func getWords(array: [String]) -> [String]{
@@ -76,11 +76,11 @@ func printResults(words:[String]){
         print(word)
     }
 }
-//words = getList()
-//words = readLine(strippingNewline: false).components(separatedBy: "\n")
-words = getWords(array: words)
-print("input of words:\(words)")
+
+//Get it from a file
+words = getList()
+//Manually imput words 
+//words = getWords(array: words)
+//print("input of words:\(words)")
 sortedWords = sorted(words: words)
-print("output of words:\(sortedWords)")
-print("actual sorted word:\(completedWords)")
 printResults(words: sortedWords)
