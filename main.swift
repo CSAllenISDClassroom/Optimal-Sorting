@@ -64,6 +64,14 @@ func sorted(words:[String]) -> [String]{
     return sortedWords
 }
 
+func prop(originalWords: [String], sortedWords: [String]) -> String{
+    if originalWords == sortedWords{
+        return "Yes"
+    } else {
+        return "No"
+    }    
+}
+
 func rearrange<T>(array: Array<T>, fromIndex: Int, toIndex: Int) -> Array<T> {
     var arr = array
     let element = arr.remove(at: fromIndex)
@@ -77,10 +85,32 @@ func printResults(words:[String]){
     }
 }
 
+func likeToPrint(words: [String]){
+    print("Would you like to print the results? (Yes or No)")
+    while let line = readLine(){
+        guard line.lowercased() != "yes" else{
+            printResults(words: words)
+            break
+        }
+        guard line.lowercased() != "no" else{
+            break
+        }
+        
+    }
+}
+var same : String
+
 //Get it from a file
 words = getList()
+
 //Manually imput words 
 //words = getWords(array: words)
+
 //print("input of words:\(words)")
+
 sortedWords = sorted(words: words)
-printResults(words: sortedWords)
+likeToPrint(words:sortedWords)
+let wordsSorted = words.sorted{$0.localizedCompare($1) == .orderedAscending}
+same = prop(originalWords: wordsSorted, sortedWords: sortedWords)
+
+print("The words sorted correced: \(same)")

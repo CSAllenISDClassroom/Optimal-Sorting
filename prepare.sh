@@ -20,7 +20,7 @@ function getWords() {
     if [ ${start,,} = "top" ];
     then
        head -n $numWords randomWords.txt > List.txt
-    elif [ ${start,,} = "bottom"];
+    elif [ ${start,,} = "bottom" ];
     then
 	tail -n $numWords randomWords.txt > List.txt	 
     else
