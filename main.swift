@@ -1,86 +1,70 @@
-import Foundation
+extension Array where Element: Comparable {
 
-//var words = ["John", "Josh", "joe", "Zach", "Haris", "Alex"]
-var words = [String]()
-var sortedWords = [String]()
-let completedWords = words.sorted()
+    //This function makes the quicksort function be able to run itself
+    mutating func quickSort() {
+        quickSort(&self[...])
+    }  
 
-
-//Use this if we are using a file to get words
-// func getList() -> [String]{
-//     if let listOfWordsURL = Bundle.main.url(forResource: "List",
-//                                             withExtension:"txt"){
-//         if let listOfWords = try? String(contentsOf: listOfWordsURL){
-//             words = listOfWords.components(separatedBy: "\n")
-//         }
-//     }
-
-//     if words.isEmpty {
-//         words = ["hi"]
-//     }
-//     return words
-// }
-
-//use this to get words manually from the user
-func getWords(array: [String]) -> [String]{
-    var list = array
-
-    print("Please enter a word:")
-    print("(To stop typing in words type 'quit')")
-
-    while let input = readLine() {
-        guard input != "quit" else{
-            break
+    //This function attempts to find a good pivot inbetween two numbers
+    func pivotFinder(in words: inout ArraySlice<Element>) {
+        let start = words.startIndex
+        let middle = (words.startIndex + words.endIndex) / 2
+        let end = words.endIndex - 1
+        
+        if words[start] > words[middle] {
+            words.swapAt(start, middle)
         }
-
-        if !list.contains(input) && input != "" {
-            list.append(input)
-
-            print("You entered: \(input)")
-        }else if input == ""{
-            print("Sorry, you can not leave this blank. Please type something in next time.")
-        }else{
-            print("Sorry, \"\(input)\" already exits")
+        
+        if words[middle] > words[end] {
+            words.swapAt(middle, end)
         }
-
-        print()
-        print("Please enter a word:")
+        
+        if words[start] > words[middle] {
+            words.swapAt(start, middle)
+        }
     }
-    return list
-}
-func sorted(words:[String]) -> [String]{
 
-    var sortedWords = words
-    var isSorted = false
-    while !isSorted{
-        isSorted = true
-        for i in 0 ..< (sortedWords.count - 1) {
-            if sortedWords[i].lowercased() > sortedWords[i + 1].lowercased(){
-                sortedWords = rearrange(array: sortedWords, fromIndex: i, toIndex: i + 1)
-                isSorted = false
+    //This function puts everything less than the pivot point before everything bigger than the pivot
+    func sort(_ words: inout ArraySlice<Element>) -> ArraySlice<Element>.Index {
+        let midPoint = (words.startIndex + words.endIndex) / 2
+        words.swapAt(midPoint, words.startIndex)
+        let pivot = words[words.startIndex]
+        
+        var lower = words.startIndex
+        var upper = words.endIndex - 1
+        
+        repeat {
+            while lower < words.endIndex - 1 && words[lower] <= pivot {
+                lower += 1
             }
+            while words[upper] > pivot {
+                upper -= 1
+            }
+            
+            if lower < upper {
+                words.swapAt(lower, upper)
+            }
+        } while lower < upper
+        
+        words.swapAt(words.startIndex, upper)
+        return upper
+    }
+
+    //This function sorts a pivot, then does the same for the section inbetween the pivot and after the pivot
+    func quickSort(_ words: inout ArraySlice<Element>) {
+        if words.count < 2 {
+            return
         }
-    }
-    return sortedWords
-}
-
-func rearrange<T>(array: Array<T>, fromIndex: Int, toIndex: Int) -> Array<T> {
-    var arr = array
-    let element = arr.remove(at: fromIndex)
-    arr.insert(element, at: toIndex)
-
-    return arr
-}
-func printResults(words:[String]){
-    for word in words{
-        print(word)
+        
+        pivotFinder(in: &words)
+        let pivot = sort(&words)
+        
+        quickSort(&words[words.startIndex..<pivot])
+        quickSort(&words[pivot + 1..<words.endIndex])
     }
 }
-//words = getList()
-//words = readLine(strippingNewline: false).components(separatedBy: "\n")
-words = getWords(array: words)
-print("input of words:\(words)")
-sortedWords = sorted(words: words)
-print("output of words:\(sortedWords)")
-print("actual sorted word:\(completedWords)")
-printResults(words: sortedWords)
+
+
+var words = ["test", "does", "this", "work"]
+words.quickSort()
+print(words)
