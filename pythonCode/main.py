@@ -9,13 +9,21 @@ words = lower.split()
 
 
 def sortWords(words):
-    #this is the first step that start from the first variable of the array, and the for loop will allow us to reuse the loop untill the words are properly sorted
+    '''
+    this is the first step that start from the first variable of the array,
+    and the for loop will allow us to reuse the loop until the words are
+    properly sorted
+    '''
     for index in range(1, len(words)):
         sortedWords = words[index]
         nextIndex = index
 
-        #This while lopp allows the main function to push the alphabetically decending lower var to the right, or atleast down while keeping the higehr of the two in the same place
-        while nextIndex > 0 and words[nextIndex -1] > sortedWords:
+        '''
+        This while loop allows the main function to push the alphabetically
+        decending lower var to the right, or atleast down while keeping the
+        higher of the two in the same place
+        '''
+        while (nextIndex > 0) and (words[nextIndex -1] > sortedWords):
             words[nextIndex] = words[nextIndex - 1]
 
             nextIndex = nextIndex - 1
