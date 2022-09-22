@@ -1,3 +1,13 @@
+var line : String?
+var words = ["test"]
+repeat {
+    print("type quit to stop")
+    line = readLine()
+    if line != nil {
+        words.append(line!)
+    }
+} while line != "quit"
+
 extension Array where Element: Comparable {
 
     //This function makes the quicksort function be able to run itself
@@ -65,6 +75,7 @@ extension Array where Element: Comparable {
 }
 
 
-var words = ["test", "does", "this", "work"]
+
 words.quickSort()
 print(words)
+print(words.count)
